@@ -14,6 +14,16 @@
 		47F822EA200E02AA006B79F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F822E8200E02AA006B79F5 /* LaunchScreen.storyboard */; };
 		47F822F5200E02AA006B79F5 /* BaiduDirectLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822F4200E02AA006B79F5 /* BaiduDirectLinkTests.swift */; };
 		47F82300200E02AA006B79F5 /* BaiduDirectLinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822FF200E02AA006B79F5 /* BaiduDirectLinkUITests.swift */; };
+		47F82316200E0C50006B79F5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8230E200E0C50006B79F5 /* Alamofire.framework */; };
+		47F82317200E0C50006B79F5 /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8230F200E0C50006B79F5 /* RxGesture.framework */; };
+		47F82318200E0C50006B79F5 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82310200E0C50006B79F5 /* ObjectMapper.framework */; };
+		47F82319200E0C50006B79F5 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82311200E0C50006B79F5 /* RxBlocking.framework */; };
+		47F8231A200E0C50006B79F5 /* KCBlockUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82312200E0C50006B79F5 /* KCBlockUIKit.framework */; };
+		47F8231B200E0C50006B79F5 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82313200E0C50006B79F5 /* RxCocoa.framework */; };
+		47F8231C200E0C50006B79F5 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82314200E0C50006B79F5 /* RxSwift.framework */; };
+		47F8231D200E0C50006B79F5 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82315200E0C50006B79F5 /* SnapKit.framework */; };
+		47F82320200E0CED006B79F5 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F8231F200E0CED006B79F5 /* ListViewController.swift */; };
+		47F82322200E0E76006B79F5 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F82321200E0E76006B79F5 /* Manager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +57,16 @@
 		47F822FB200E02AA006B79F5 /* BaiduDirectLinkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaiduDirectLinkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		47F822FF200E02AA006B79F5 /* BaiduDirectLinkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaiduDirectLinkUITests.swift; sourceTree = "<group>"; };
 		47F82301200E02AA006B79F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47F8230E200E0C50006B79F5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		47F8230F200E0C50006B79F5 /* RxGesture.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxGesture.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/RxGesture.framework; sourceTree = "<group>"; };
+		47F82310200E0C50006B79F5 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		47F82311200E0C50006B79F5 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
+		47F82312200E0C50006B79F5 /* KCBlockUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KCBlockUIKit.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/KCBlockUIKit.framework; sourceTree = "<group>"; };
+		47F82313200E0C50006B79F5 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		47F82314200E0C50006B79F5 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		47F82315200E0C50006B79F5 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../Carthage/swift3.2/Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		47F8231F200E0CED006B79F5 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		47F82321200E0E76006B79F5 /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +74,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F82316200E0C50006B79F5 /* Alamofire.framework in Frameworks */,
+				47F82317200E0C50006B79F5 /* RxGesture.framework in Frameworks */,
+				47F82318200E0C50006B79F5 /* ObjectMapper.framework in Frameworks */,
+				47F82319200E0C50006B79F5 /* RxBlocking.framework in Frameworks */,
+				47F8231A200E0C50006B79F5 /* KCBlockUIKit.framework in Frameworks */,
+				47F8231B200E0C50006B79F5 /* RxCocoa.framework in Frameworks */,
+				47F8231C200E0C50006B79F5 /* RxSwift.framework in Frameworks */,
+				47F8231D200E0C50006B79F5 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +109,7 @@
 				47F822F3200E02AA006B79F5 /* BaiduDirectLinkTests */,
 				47F822FE200E02AA006B79F5 /* BaiduDirectLinkUITests */,
 				47F822DD200E02A9006B79F5 /* Products */,
+				47F8230D200E0C4F006B79F5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +132,8 @@
 				47F822E6200E02AA006B79F5 /* Assets.xcassets */,
 				47F822E8200E02AA006B79F5 /* LaunchScreen.storyboard */,
 				47F822EB200E02AA006B79F5 /* Info.plist */,
+				47F8231F200E0CED006B79F5 /* ListViewController.swift */,
+				47F82321200E0E76006B79F5 /* Manager.swift */,
 			);
 			path = BaiduDirectLink;
 			sourceTree = "<group>";
@@ -125,6 +156,21 @@
 			path = BaiduDirectLinkUITests;
 			sourceTree = "<group>";
 		};
+		47F8230D200E0C4F006B79F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47F8230E200E0C50006B79F5 /* Alamofire.framework */,
+				47F82312200E0C50006B79F5 /* KCBlockUIKit.framework */,
+				47F82310200E0C50006B79F5 /* ObjectMapper.framework */,
+				47F82311200E0C50006B79F5 /* RxBlocking.framework */,
+				47F82313200E0C50006B79F5 /* RxCocoa.framework */,
+				47F8230F200E0C50006B79F5 /* RxGesture.framework */,
+				47F82314200E0C50006B79F5 /* RxSwift.framework */,
+				47F82315200E0C50006B79F5 /* SnapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,6 +181,7 @@
 				47F822D8200E02A9006B79F5 /* Sources */,
 				47F822D9200E02A9006B79F5 /* Frameworks */,
 				47F822DA200E02A9006B79F5 /* Resources */,
+				47F8231E200E0C67006B79F5 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -254,6 +301,30 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		47F8231E200E0C67006B79F5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/Alamofire.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxBlocking.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxCocoa.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxSwift.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/SnapKit.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/KCBlockUIKit.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxGesture.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/ObjectMapper.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		47F822D8200E02A9006B79F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -261,6 +332,8 @@
 			files = (
 				47F822E2200E02AA006B79F5 /* ViewController.swift in Sources */,
 				47F822E0200E02AA006B79F5 /* AppDelegate.swift in Sources */,
+				47F82320200E0CED006B79F5 /* ListViewController.swift in Sources */,
+				47F82322200E0E76006B79F5 /* Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,11 +500,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Carthage/swift3.2/Carthage/Build/iOS";
 				INFOPLIST_FILE = BaiduDirectLink/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = k.BaiduDirectLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -441,11 +515,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Carthage/swift3.2/Carthage/Build/iOS";
 				INFOPLIST_FILE = BaiduDirectLink/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = k.BaiduDirectLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

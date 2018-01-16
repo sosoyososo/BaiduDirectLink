@@ -35,6 +35,14 @@ class ListViewController : UIViewController {
             title = path?.components(separatedBy: "/").last ?? ""
         }
         
+        if isHome {
+            setNavLeftItem("切换账号", image: nil, titleColor: nil, font: nil) { [unowned self] in
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        setNavRightItem("文件全选", image: nil, titleColor: nil, font: nil) { [unowned self] in
+            self.showDetail(with: self.getAllFiles())
+        }
         
         view.addSubview(table)
         table.snp.makeConstraints({ (make) in
@@ -72,7 +80,7 @@ class ListViewController : UIViewController {
                 if data.0 {
                     self.showNext(with: data.2)
                 } else {
-                    self.showDetail(with: data.2)
+                    self.showDetail(with: [data.2])
                 }
             }
         }
@@ -86,27 +94,41 @@ class ListViewController : UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    func showDetail(with path : String) {
-        let loading = showKCLoading()
-        Manager.share.getDLink(path) { [weak self] (link, err) in
-            loading.hide()
-            if let err = err {
-                _=self?.showKCTips(with: err.message, autoHide: (0.5, {}))
-            } else {
-                if let link = link, link.count > 0 {
-                    self?.share(link)
-                } else {
-                    _=self?.showKCTips(with: link ?? "没有数据", autoHide: (0.5, {}))
-                }
-            }
-        }
-    }
     
     func cellData(with data : [String:Any]) -> (Bool, String, String) {
         let isDir = (data["isdir"] as? Bool) == true
         let path = (data["path"] as? String) ?? ""
-        let name = path.components(separatedBy: "/").last ?? ""
+        let name = (data["server_filename"] as? String) ?? ""
         return (isDir, name, path)
+    }
+    
+    func getAllFiles() -> [String] {
+        return items?.flatMap { (data) -> String? in
+            let item = self.cellData(with: data)
+            if item.0 == false {
+                return item.2
+            }
+            return nil
+        } ?? []
+    }
+    
+    func showDetail(with pathes : [String]) {
+        if pathes.count == 0 {
+            return
+        }
+        let loading = showKCLoading()
+        Manager.share.getDLink(pathes) { [weak self] (linkes, err) in
+            loading.hide()
+            if let err = err {
+                _=self?.showKCTips(with: err.message, autoHide: (0.5, {}))
+            } else {
+                if let link = linkes, link.count > 0 {
+                    self?.share(link)
+                } else {
+                    _=self?.showKCTips(with:  "没有数据", autoHide: (0.5, {}))
+                }
+            }
+        }
     }
     
     func loadData() {
@@ -135,7 +157,8 @@ class ListViewController : UIViewController {
         }
     }
     
-    func share(_ dlink : String) {
+    func share(_ dlink : [String]) {
+        print(dlink)
         let activity = UIActivityViewController.init(activityItems: [UIActivityType.airDrop,
                                                                      UIActivityType.copyToPasteboard,
                                                                      UIActivityType.mail,

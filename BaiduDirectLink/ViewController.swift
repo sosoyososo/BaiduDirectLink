@@ -19,19 +19,17 @@ class ViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         token = UserDefaults.standard.value(forKey: tokenKey) as? String
         Manager.token = token
-        if token == nil {
-            if let url = URL.init(string: "http://pan.baidu.com") {
-                webView?.loadRequest(URLRequest.init(url: url))
-            }
-            webView?.delegate = self
-        } else {
-            showHome()
+        if let url = URL.init(string: "http://pan.baidu.com") {
+            webView?.loadRequest(URLRequest.init(url: url))
+        }
+        webView?.delegate = self
+
+        if token != nil {
+            KCDeferMainQueueAction(1, { [unowned self] in
+                self.showHome()
+            })
         }
     }
     
@@ -43,7 +41,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
                     let strS = list[i].components(separatedBy: "=")
                     if strS.first == "stoken", strS.count >= 2 {
                         stoken = strS[1]
-                        UserDefaults.standard.set(stoken, forKey: "baidu_token")
+                        UserDefaults.standard.set(stoken, forKey: tokenKey)
                         token = stoken
                         Manager.token = stoken
                         showHome()

@@ -25,8 +25,17 @@ class Manager {
     
     func loadList(_ path : String, finish : @escaping ([[String:Any]]?, NSError?)->()) {
         if let token = Manager.token {
-            let urlStr = "https://pan.baidu.com/api/list?dir=\(path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? "")&stoken=\(token)"
+            let urlStr = "https://pan.baidu.com/api/list?dir=\(path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? "")&clienttype=0&web=1&page=1&channel=chunlei&web=1&app_id=250528&stoken=\(token)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
+                print("====================")
+                print(urlStr)
+//                if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
+//                    print("+++++++++++++++")
+//                    cookies.forEach({ (cookie) in
+//                        print(cookie)
+//                    })
+//                }
+
                 let request = Alamofire.request(url, headers: nil)
                 request.responseJSON(completionHandler: { (resp) in
                     if let err = resp.error {
@@ -34,6 +43,7 @@ class Manager {
                     } else {
                         if let list = (resp.result.value as? [String:Any])?["list"] as? [[String:Any]] {
                             finish(list, nil)
+//                            print(list)
                         } else {
                             finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
                         }
@@ -47,22 +57,33 @@ class Manager {
         }
     }
     
-    func getDLink(_ path : String, finish : @escaping (String?, NSError?)->()) {
+    func getDLink(_ path : [String], finish : @escaping ([String]?, NSError?)->()) {
         if let token = Manager.token {
-            let parameter = "[\"\(path)\"]".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? ""
-            let urlStr = "https://pan.baidu.com/api/filemetas?target=\(parameter)&stoken=\(token)&dlink=1"
+            let pathes = path.map({ (str) -> String in
+                return "\"\(str)\""
+            })
+            let query = "target=[\(pathes.joined(separator: ","))]&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&logid=MTUxNjExMDQyOTg3ODAuNjY0MDEzODg0NjQ0MjM0OQ==&clienttype=0".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? ""
+            let urlStr = "https://pan.baidu.com/api/filemetas?\(query)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
+                print("====================")
+                print(urlStr)
+//                if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
+//                    print("+++++++++++++++")
+//                    cookies.forEach({ (cookie) in
+//                        print(cookie)
+//                    })
+//                }
                 let request = Alamofire.request(url, headers: nil)
                 request.responseJSON(completionHandler: { (resp) in
                     if let err = resp.error {
                         finish(nil, err as NSError)
                     } else {
                         if let list = (resp.result.value as? [String:Any])?["info"] as? [[String:Any]] {
-                            if let dlink = list.first?["dlink"] as? String {
-                                finish(dlink, nil)
-                            } else {
-                                finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
-                            }
+//                            print(list)
+                            let items = list.flatMap({ (item) -> String? in
+                                return item["dlink"] as? String
+                            })
+                            finish(items, nil)
                         } else {
                             finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
                         }

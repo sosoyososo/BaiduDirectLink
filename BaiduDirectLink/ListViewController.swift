@@ -157,12 +157,8 @@ class ListViewController : UIViewController {
         }
     }
     
-    func share(_ dlink : [String]) {
-        print(dlink)
-        let activity = UIActivityViewController.init(activityItems: [UIActivityType.airDrop,
-                                                                     UIActivityType.copyToPasteboard,
-                                                                     UIActivityType.mail,
-                                                                     UIActivityType.message], applicationActivities: [])
+    func share(_ dlink : [String]) {        
+        let activity = UIActivityViewController.init(activityItems: [dlink.joined(separator: ",")], applicationActivities: [])
         present(activity, animated: true, completion: nil)
     }
 }

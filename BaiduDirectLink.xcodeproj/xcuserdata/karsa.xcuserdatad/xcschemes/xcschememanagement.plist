@@ -4,10 +4,28 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>BaiduDirectLink.xcscheme</key>
+		<key>BaiduDirectLink.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>47F822DB200E02A9006B79F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>47F822EF200E02AA006B79F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>47F822FA200E02AA006B79F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

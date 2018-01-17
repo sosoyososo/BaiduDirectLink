@@ -157,8 +157,11 @@ class ListViewController : UIViewController {
         }
     }
     
-    func share(_ dlink : [String]) {        
-        let activity = UIActivityViewController.init(activityItems: [dlink.joined(separator: ",")], applicationActivities: [])
+    func share(_ dlink : [String]) {
+        let urls = dlink.flatMap { (link) -> URL? in
+            return URL.init(string: link)
+        }
+        let activity = UIActivityViewController.init(activityItems: urls, applicationActivities: [])
         present(activity, animated: true, completion: nil)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		472C0F15200EFECB001AEA5A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8230E200E0C50006B79F5 /* Alamofire.framework */; };
 		47F822E0200E02AA006B79F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822DF200E02AA006B79F5 /* AppDelegate.swift */; };
 		47F822E2200E02AA006B79F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822E1200E02AA006B79F5 /* ViewController.swift */; };
 		47F822E5200E02AA006B79F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F822E3200E02AA006B79F5 /* Main.storyboard */; };
@@ -14,7 +15,6 @@
 		47F822EA200E02AA006B79F5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47F822E8200E02AA006B79F5 /* LaunchScreen.storyboard */; };
 		47F822F5200E02AA006B79F5 /* BaiduDirectLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822F4200E02AA006B79F5 /* BaiduDirectLinkTests.swift */; };
 		47F82300200E02AA006B79F5 /* BaiduDirectLinkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F822FF200E02AA006B79F5 /* BaiduDirectLinkUITests.swift */; };
-		47F82316200E0C50006B79F5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8230E200E0C50006B79F5 /* Alamofire.framework */; };
 		47F82317200E0C50006B79F5 /* RxGesture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F8230F200E0C50006B79F5 /* RxGesture.framework */; };
 		47F82318200E0C50006B79F5 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82310200E0C50006B79F5 /* ObjectMapper.framework */; };
 		47F82319200E0C50006B79F5 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F82311200E0C50006B79F5 /* RxBlocking.framework */; };
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47F82316200E0C50006B79F5 /* Alamofire.framework in Frameworks */,
+				472C0F15200EFECB001AEA5A /* Alamofire.framework in Frameworks */,
 				47F82317200E0C50006B79F5 /* RxGesture.framework in Frameworks */,
 				47F82318200E0C50006B79F5 /* ObjectMapper.framework in Frameworks */,
 				47F82319200E0C50006B79F5 /* RxBlocking.framework in Frameworks */,
@@ -304,11 +304,10 @@
 /* Begin PBXShellScriptBuildPhase section */
 		47F8231E200E0C67006B79F5 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
-				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/Alamofire.framework",
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxBlocking.framework",
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxCocoa.framework",
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxSwift.framework",
@@ -316,10 +315,11 @@
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/KCBlockUIKit.framework",
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/RxGesture.framework",
 				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/ObjectMapper.framework",
+				"$(HOME)/Carthage/swift3.2/Carthage/Build/iOS/Alamofire.framework",
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};

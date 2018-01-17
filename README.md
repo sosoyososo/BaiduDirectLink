@@ -3,3 +3,7 @@
 
 
 ![alt text](https://github.com/sosoyososo/BaiduDirectLink/blob/master/screenShoot.png?raw=true)
+
+依赖使用Carthage，其中KCBlockUIKit可以在 https://github.com/sosoyososo/KCBlockUIKit 找到，其余的都是github上常见的
+![alt text](https://github.com/sosoyososo/BaiduDirectLink/blob/master/dependency.png?raw=true)
+

@@ -15,9 +15,33 @@ extension NSError {
     }
 }
 
+let tokenKey = "baidu_token"
+let logIdKey = "baidu_logId"
 class Manager {
-    static var token : String? = nil
+    static var token : String? = nil {
+        didSet {
+            if let value = token {
+                UserDefaults.standard.setValue(value, forKey: tokenKey)
+            } else {
+                UserDefaults.standard.removeSuite(named: tokenKey)
+            }
+        }
+    }
+    static var logId : String? = nil {
+        didSet {
+            if let value = logId {
+                UserDefaults.standard.setValue(value, forKey: logIdKey)
+            } else {
+                UserDefaults.standard.removeSuite(named: logIdKey)
+            }
+        }
+    }
     static let share = Manager()
+    
+    init() {
+        Manager.token = UserDefaults.standard.value(forKey: tokenKey) as? String
+        Manager.logId = UserDefaults.standard.value(forKey: logIdKey) as? String
+    }
     
     func loadHome(_ finish : @escaping ([[String:Any]]?, NSError?)->()) {
         loadList("/", finish: finish)
@@ -27,15 +51,6 @@ class Manager {
         if let token = Manager.token {
             let urlStr = "https://pan.baidu.com/api/list?dir=\(path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? "")&clienttype=0&web=1&page=1&channel=chunlei&web=1&app_id=250528&stoken=\(token)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
-                print("====================")
-                print(urlStr)
-//                if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
-//                    print("+++++++++++++++")
-//                    cookies.forEach({ (cookie) in
-//                        print(cookie)
-//                    })
-//                }
-
                 let request = Alamofire.request(url, headers: nil)
                 request.responseJSON(completionHandler: { (resp) in
                     if let err = resp.error {
@@ -43,7 +58,6 @@ class Manager {
                     } else {
                         if let list = (resp.result.value as? [String:Any])?["list"] as? [[String:Any]] {
                             finish(list, nil)
-//                            print(list)
                         } else {
                             finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
                         }
@@ -62,27 +76,20 @@ class Manager {
             let pathes = path.map({ (str) -> String in
                 return "\"\(str)\""
             })
-            let query = "target=[\(pathes.joined(separator: ","))]&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&logid=MTUxNjExMDQyOTg3ODAuNjY0MDEzODg0NjQ0MjM0OQ==&clienttype=0".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? ""
+            let query = "target=[\(pathes.joined(separator: ","))]&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&clienttype=0&logid=\(Manager.logId ?? "")".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? ""
             let urlStr = "https://pan.baidu.com/api/filemetas?\(query)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
-                print("====================")
-                print(urlStr)
-//                if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
-//                    print("+++++++++++++++")
-//                    cookies.forEach({ (cookie) in
-//                        print(cookie)
-//                    })
-//                }
                 let request = Alamofire.request(url, headers: nil)
                 request.responseJSON(completionHandler: { (resp) in
                     if let err = resp.error {
                         finish(nil, err as NSError)
                     } else {
                         if let list = (resp.result.value as? [String:Any])?["info"] as? [[String:Any]] {
-//                            print(list)
                             let items = list.flatMap({ (item) -> String? in
                                 return item["dlink"] as? String
                             })
+                            print("====================")
+                            print(items)
                             finish(items, nil)
                         } else {
                             finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))

@@ -9,27 +9,19 @@
 import UIKit
 import KCBlockUIKit
 
-let tokenKey = "baidu_token"
-var token : String? = nil
-
 class ViewController: UIViewController, UIWebViewDelegate {
     
     @IBOutlet var webView : UIWebView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        token = UserDefaults.standard.value(forKey: tokenKey) as? String
-        Manager.token = token
+        
         if let url = URL.init(string: "http://pan.baidu.com") {
             webView?.loadRequest(URLRequest.init(url: url))
         }
         webView?.delegate = self
-
-        if token != nil {
-            KCDeferMainQueueAction(1, { [unowned self] in
-                self.showHome()
-            })
+        setNavRightItem("首页", image: nil, titleColor: nil, font: nil) { [unowned self] in
+            self.showHome()
         }
     }
     
@@ -39,13 +31,11 @@ class ViewController: UIViewController, UIWebViewDelegate {
             if let list = request.url?.absoluteString.components(separatedBy: "&") {
                 for i in 0..<list.count {
                     let strS = list[i].components(separatedBy: "=")
-                    if strS.first == "stoken", strS.count >= 2 {
-                        stoken = strS[1]
-                        UserDefaults.standard.set(stoken, forKey: tokenKey)
-                        token = stoken
+                    if strS.first?.lowercased() == "stoken", strS.count >= 2 {
+                        stoken = strS[1]                        
                         Manager.token = stoken
-                        showHome()
-                        break
+                    } else if strS.first?.lowercased() == "logid", strS.count >= 2 {
+                        Manager.logId = strS[1]
                     }
                 }
             }

@@ -14,3 +14,7 @@
 依赖使用Carthage，其中KCBlockUIKit可以在 https://github.com/sosoyososo/KCBlockUIKit 找到，其余的都是github上常见的
 ![alt text](https://github.com/sosoyososo/BaiduDirectLink/blob/master/dependency.png?raw=true)
 
+
+## TODO
+1. 文件名包含特殊字符(比如&)的时候无法下载
+2. webView无法返回

@@ -54,7 +54,66 @@ class ListViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
+        configNavBar()
+        setUpViews()
+        configTable()
+        loadData()
+    }
 
+    func setUpViews() {
+        view.addSubview(table)
+        table.snp.makeConstraints({ (make) in
+            make.left.right.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+        })
+
+        view.addSubview(editToolBar)
+        editToolBar.snp.makeConstraints { (make) in
+            make.height.equalTo(50)
+            make.top.equalTo(self.table.snp.bottom)
+            make.left.right.equalToSuperview()
+        }
+        editToolBar.backgroundColor = .white
+
+        _=editToolBar.addSeparator(UIColor.lightGray, separatorType: UIView.KCUIViewSeparatorType.top)
+        let btn1 = UIButton.init(type: .system)
+        btn1.setTitle("全选", for: .normal)
+        editToolBar.addSubview(btn1)
+        btn1.snp.makeConstraints { (make) in
+            make.left.top.bottom.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(2)
+        }
+        _=btn1.rx.tap.subscribe(onNext: { [unowned self] () in
+            if self.isAllSelected() {
+                self.table.indexPathsForVisibleRows?.forEach({ [unowned self] (indexPath) in
+                    self.table.deselectRow(at: indexPath, animated: false)
+                })
+            } else {
+                guard let count = self.items?.count else {
+                    return
+                }
+                for i in 0..<count {
+                    self.table.selectRow(at: IndexPath.init(row: i, section: 0),
+                                         animated: false,
+                                         scrollPosition: UITableViewScrollPosition.none)
+                }
+            }
+            self.updateEditToolBar()
+        })
+
+        let btn2 = UIButton.init(type: .system)
+        btn2.setTitle("下载", for: .normal)
+        editToolBar.addSubview(btn2)
+        btn2.snp.makeConstraints { (make) in
+            make.right.top.bottom.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(2)
+        }
+        _=btn2.rx.tap.subscribe(onNext: { [unowned self] () in
+            self.getSelectedPathes()
+        })
+    }
+
+    func configNavBar() {
         if isHome {
             title = "首页"
         } else {
@@ -90,55 +149,9 @@ class ListViewController: UIViewController {
                 navigationItem.rightBarButtonItems = [rightItem1, rightItem2]
             }
         }
-        view.addSubview(table)
-        table.snp.makeConstraints({ (make) in
-            make.left.right.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-        })
+    }
 
-        view.addSubview(editToolBar)
-        editToolBar.snp.makeConstraints { (make) in
-            make.height.equalTo(50)
-            make.top.equalTo(self.table.snp.bottom)
-            make.left.right.equalToSuperview()
-        }
-        editToolBar.backgroundColor = .white
-
-        _=editToolBar.addSeparator(UIColor.lightGray, separatorType: UIView.KCUIViewSeparatorType.top)
-        let btn1 = UIButton.init(type: .system)
-        btn1.setTitle("全选", for: .normal)
-        editToolBar.addSubview(btn1)
-        btn1.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(2)
-        }
-        _=btn1.rx.tap.subscribe(onNext: { [unowned self] () in
-            if self.isAllSelected() {
-                self.table.indexPathsForVisibleRows?.forEach({ [unowned self] (indexPath) in
-                    self.table.deselectRow(at: indexPath, animated: false)
-                })
-            } else {
-                guard let count = self.items?.count else {
-                    return
-                }
-                for i in 0..<count {
-                    self.table.selectRow(at: IndexPath.init(row: i, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.none)
-                }
-            }
-            self.updateEditToolBar()
-        })
-
-        let btn2 = UIButton.init(type: .system)
-        btn2.setTitle("下载", for: .normal)
-        editToolBar.addSubview(btn2)
-        btn2.snp.makeConstraints { (make) in
-            make.right.top.bottom.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(2)
-        }
-        _=btn2.rx.tap.subscribe(onNext: { [unowned self] () in
-            self.getSelectedPathes()
-        })
-
+    func configTable() {
         table.canEditIndexPath = { _ in
             return true
         }
@@ -150,7 +163,8 @@ class ListViewController: UIViewController {
                     return UITableViewCellEditingStyle.none
                 }
             }
-            return UITableViewCellEditingStyle.init(rawValue: UITableViewCellEditingStyle.delete.rawValue | UITableViewCellEditingStyle.insert.rawValue)!
+            return UITableViewCellEditingStyle(rawValue: UITableViewCellEditingStyle.delete.rawValue
+                | UITableViewCellEditingStyle.insert.rawValue)!
         }
 
         table.cellGeneration = { table, indexPath in
@@ -190,8 +204,6 @@ class ListViewController: UIViewController {
                 }
             }
         }
-
-        loadData()
     }
 
     func showNext(with path: String) {
@@ -275,7 +287,7 @@ class ListViewController: UIViewController {
                 if let link = linkes, link.count > 0 {
                     self?.share(link)
                 } else {
-                    _=self?.showKCTips(with:  "没有数据", autoHide: (0.5, {}))
+                    _=self?.showKCTips(with: "没有数据", autoHide: (0.5, {}))
                 }
             }
         }

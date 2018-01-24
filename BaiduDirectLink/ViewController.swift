@@ -33,7 +33,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
             })
     }
 
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView,
+                 shouldStartLoadWith request: URLRequest,
+                 navigationType: UIWebViewNavigationType) -> Bool {
         if request.url?.absoluteString.contains("stoken") == true {
             var stoken = ""
             if let list = request.url?.absoluteString.components(separatedBy: "&") {

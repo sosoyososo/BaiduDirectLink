@@ -267,6 +267,7 @@ class ListViewController : UIViewController {
             return
         }
         let loading = showKCLoading()
+        view.layoutIfNeeded()
         Manager.share.getDLink(pathes) { [weak self] (linkes, err) in
             loading.hide()
             if let err = err {

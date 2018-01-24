@@ -76,7 +76,8 @@ class Manager {
             let pathes = path.map({ (str) -> String in
                 return "\"\(str)\""
             })
-            let query = "target=[\(pathes.joined(separator: ","))]&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&clienttype=0&logid=\(Manager.logId ?? "")".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? ""
+            let target = "[\(pathes.joined(separator: ","))]".addingPercentEncoding(withAllowedCharacters: CharacterSet()) ?? ""
+            let query = "target=\(target)&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&clienttype=0&logid=\(Manager.logId ?? "")"
             let urlStr = "https://pan.baidu.com/api/filemetas?\(query)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
                 let request = Alamofire.request(url, headers: nil)

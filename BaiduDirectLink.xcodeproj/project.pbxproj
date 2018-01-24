@@ -503,10 +503,11 @@
 				DEVELOPMENT_TEAM = Z847Z7DQC7;
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Carthage/swift3.2/Carthage/Build/iOS";
 				INFOPLIST_FILE = BaiduDirectLink/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = k.BaiduDirectLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "646ac9ba-bdf1-42f5-bcb8-4e350ca2d406";
+				PROVISIONING_PROFILE = "cc163fa0-50e7-4516-bf81-114c2978c975";
 				PROVISIONING_PROFILE_SPECIFIER = BaiduDirectLink;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -521,6 +522,7 @@
 				DEVELOPMENT_TEAM = 3836W6J655;
 				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Carthage/swift3.2/Carthage/Build/iOS";
 				INFOPLIST_FILE = BaiduDirectLink/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = k.BaiduDirectLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -12,23 +12,23 @@ import KCBlockUIKit
 
 let systemBlueColor = UIColor.init(red: 80/255.0, green: 150/255.0, blue: 1, alpha: 1)
 
-class ListViewController : UIViewController {
+class ListViewController: UIViewController {
     private var table = KCBlockTableView()
-    
-    var isHome : Bool = false
-    var path : String? = nil
-    
-    private var items : [[String:Any]]? = nil {
+
+    var isHome: Bool = false
+    var path: String?
+
+    private var items: [[String: Any]]? = nil {
         didSet {
-            if let cellItems = items?.map({ (item) -> (String,Any,Float) in
+            if let cellItems = items?.map({ (item) -> (String, Any, Float) in
                 return ("cell", item, Float(50.0))
             }) {
                 table.items = [cellItems]
             }
         }
     }
-    
-    private var tableEditing : Bool = false {
+
+    private var tableEditing: Bool = false {
         didSet {
             self.table.isEditing = tableEditing
             if tableEditing {
@@ -43,33 +43,33 @@ class ListViewController : UIViewController {
             UIView.animate(withDuration: 0.35) {
                 self.view.layoutIfNeeded()
             }
-            
+
             if tableEditing {
                 updateEditToolBar()
             }
         }
     }
-    
+
     private var editToolBar = UIView()
-    
+
     override func loadView() {
         super.loadView()
-        
+
         if isHome {
             title = "首页"
         } else {
             title = path?.components(separatedBy: "/").last ?? ""
         }
-        
+
         if isHome {
             setNavLeftItem("切换账号", image: nil, titleColor: systemBlueColor, font: nil) { [unowned self] in
                 self.dismiss(animated: true, completion: nil)
             }
         }
-        
+
         setNavRightItem("选择", image: nil, titleColor: systemBlueColor, font: nil) { [unowned self] in
             self.tableEditing = self.tableEditing == false
-            
+
             guard let items = self.navigationItem.rightBarButtonItems else {
                 return
             }
@@ -95,7 +95,7 @@ class ListViewController : UIViewController {
             make.left.right.top.equalToSuperview()
             make.bottom.equalToSuperview()
         })
-        
+
         view.addSubview(editToolBar)
         editToolBar.snp.makeConstraints { (make) in
             make.height.equalTo(50)
@@ -103,7 +103,7 @@ class ListViewController : UIViewController {
             make.left.right.equalToSuperview()
         }
         editToolBar.backgroundColor = .white
-        
+
         _=editToolBar.addSeparator(UIColor.lightGray, separatorType: UIView.KCUIViewSeparatorType.top)
         let btn1 = UIButton.init(type: .system)
         btn1.setTitle("全选", for: .normal)
@@ -127,7 +127,7 @@ class ListViewController : UIViewController {
             }
             self.updateEditToolBar()
         })
-        
+
         let btn2 = UIButton.init(type: .system)
         btn2.setTitle("下载", for: .normal)
         editToolBar.addSubview(btn2)
@@ -138,24 +138,24 @@ class ListViewController : UIViewController {
         _=btn2.rx.tap.subscribe(onNext: { [unowned self] () in
             self.getSelectedPathes()
         })
-        
+
         table.canEditIndexPath = { _ in
             return true
         }
-        
+
         table.editStyleForIndexPath = { indexPath in
-            if let item = self.table.item(at: indexPath) as? (String,[String:Any],Float) {
+            if let item = self.table.item(at: indexPath) as? (String, [String: Any], Float) {
                 let data = self.cellData(with: item.1)
-                if data.0  {
+                if data.0 {
                     return UITableViewCellEditingStyle.none
                 }
             }
             return UITableViewCellEditingStyle.init(rawValue: UITableViewCellEditingStyle.delete.rawValue | UITableViewCellEditingStyle.insert.rawValue)!
         }
-        
+
         table.cellGeneration = { table, indexPath in
-            var cell : UITableViewCell? = nil
-            if let item = (table as? KCBlockTableView)?.item(at: indexPath) as? (String,Any,Float) {
+            var cell: UITableViewCell? = nil
+            if let item = (table as? KCBlockTableView)?.item(at: indexPath) as? (String, Any, Float) {
                 cell = table.dequeueReusableCell(withIdentifier: item.0)
             }
             if cell == nil {
@@ -164,24 +164,24 @@ class ListViewController : UIViewController {
             return cell!
         }
         table.cellConfig = { [unowned self] cell, indexPath in
-            if let item = self.table.item(at: indexPath) as? (String,[String:Any],Float) {
+            if let item = self.table.item(at: indexPath) as? (String, [String: Any], Float) {
                 let data = self.cellData(with: item.1)
                 cell.detailTextLabel?.text = data.0 ? "文件夹" : "文件"
                 cell.textLabel?.text = data.1
             }
         }
-        
+
         table.cellHeight = { [unowned self] indexPath in
-            if let item = self.table.item(at: indexPath) as? (String,Any,Float) {
+            if let item = self.table.item(at: indexPath) as? (String, Any, Float) {
                 return CGFloat(item.2)
             }
             return 44
         }
-        
+
         table.indexPathSelected = { [unowned self] _, indexPath in
             if self.tableEditing {
                 self.updateEditToolBar()
-            } else if let item = self.table.item(at: indexPath) as? (String,[String:Any],Float) {
+            } else if let item = self.table.item(at: indexPath) as? (String, [String: Any], Float) {
                 let data = self.cellData(with: item.1)
                 if data.0 {
                     self.showNext(with: data.2)
@@ -190,24 +190,23 @@ class ListViewController : UIViewController {
                 }
             }
         }
-        
+
         loadData()
     }
-    
-    func showNext(with path : String) {
+
+    func showNext(with path: String) {
         let controller = ListViewController()
         controller.path = path
         navigationController?.pushViewController(controller, animated: true)
     }
-    
-    
-    func cellData(with data : [String:Any]) -> (Bool, String, String) {
+
+    func cellData(with data: [String: Any]) -> (Bool, String, String) {
         let isDir = (data["isdir"] as? Bool) == true
         let path = (data["path"] as? String) ?? ""
         let name = (data["server_filename"] as? String) ?? ""
         return (isDir, name, path)
     }
-    
+
     func getAllFiles() -> [String] {
         return items?.flatMap { (data) -> String? in
             let item = self.cellData(with: data)
@@ -217,7 +216,7 @@ class ListViewController : UIViewController {
             return nil
         } ?? []
     }
-    
+
     func isAllSelected() -> Bool {
         guard let count = table.indexPathsForSelectedRows?.count else {
             return false
@@ -227,7 +226,7 @@ class ListViewController : UIViewController {
         }
         return count >= itemCount
     }
-    
+
     func updateEditToolBar() {
         let count = self.editToolBar.subviews.count
         if count > 1 {
@@ -245,12 +244,12 @@ class ListViewController : UIViewController {
             }
         }
     }
-    
+
     func getSelectedPathes() {
         if let indexPathes = table.indexPathsForSelectedRows {
-            var pathes : [String] = []
+            var pathes: [String] = []
             indexPathes.forEach({ (indexPath) in
-                if let item = self.table.item(at: indexPath) as? (String,[String:Any],Float) {
+                if let item = self.table.item(at: indexPath) as? (String, [String: Any], Float) {
                     let data = self.cellData(with: item.1)
                     if data.0 == false {
                         pathes.append(data.2)
@@ -261,8 +260,8 @@ class ListViewController : UIViewController {
         }
         self.tableEditing = false
     }
-    
-    func showDetail(with pathes : [String]) {
+
+    func showDetail(with pathes: [String]) {
         if pathes.count == 0 {
             return
         }
@@ -281,7 +280,7 @@ class ListViewController : UIViewController {
             }
         }
     }
-    
+
     func loadData() {
         if isHome {
             let loading = showKCLoading()
@@ -307,8 +306,8 @@ class ListViewController : UIViewController {
             })
         }
     }
-    
-    func share(_ dlink : [String]) {
+
+    func share(_ dlink: [String]) {
         let urls = dlink.flatMap { (link) -> URL? in
             return URL.init(string: link)
         }

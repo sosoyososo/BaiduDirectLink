@@ -11,12 +11,12 @@ import KCBlockUIKit
 import RxGesture
 
 class ViewController: UIViewController, UIWebViewDelegate {
-    
-    @IBOutlet var webView : UIWebView?
+
+    @IBOutlet var webView: UIWebView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let url = URL.init(string: "http://pan.baidu.com") {
             webView?.loadRequest(URLRequest.init(url: url))
         }
@@ -32,7 +32,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
                 }
             })
     }
-    
+
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if request.url?.absoluteString.contains("stoken") == true {
             var stoken = ""
@@ -40,7 +40,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
                 for i in 0..<list.count {
                     let strS = list[i].components(separatedBy: "=")
                     if strS.first?.lowercased() == "stoken", strS.count >= 2 {
-                        stoken = strS[1]                        
+                        stoken = strS[1]
                         Manager.token = stoken
                     } else if strS.first?.lowercased() == "logid", strS.count >= 2 {
                         Manager.logId = strS[1]
@@ -50,11 +50,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         return true
     }
-    
+
     func showHome() {
         let controller = ListViewController()
         controller.isHome = true
         present(UINavigationController.init(rootViewController: controller), animated: true, completion: nil)
     }
 }
-

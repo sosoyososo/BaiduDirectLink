@@ -10,15 +10,15 @@ import Foundation
 import Alamofire
 
 extension NSError {
-    var message : String {
-        return ((userInfo as? [String:Any])?["msg"] as? String) ?? localizedDescription
+    var message: String {
+        return ((userInfo as? [String: Any])?["msg"] as? String) ?? localizedDescription
     }
 }
 
 let tokenKey = "baidu_token"
 let logIdKey = "baidu_logId"
 class Manager {
-    static var token : String? = nil {
+    static var token: String? = nil {
         didSet {
             if let value = token {
                 UserDefaults.standard.setValue(value, forKey: tokenKey)
@@ -27,7 +27,7 @@ class Manager {
             }
         }
     }
-    static var logId : String? = nil {
+    static var logId: String? = nil {
         didSet {
             if let value = logId {
                 UserDefaults.standard.setValue(value, forKey: logIdKey)
@@ -37,47 +37,51 @@ class Manager {
         }
     }
     static let share = Manager()
-    
+
     init() {
         Manager.token = UserDefaults.standard.value(forKey: tokenKey) as? String
         Manager.logId = UserDefaults.standard.value(forKey: logIdKey) as? String
     }
-    
-    func loadHome(_ finish : @escaping ([[String:Any]]?, NSError?)->()) {
+
+    func loadHome(_ finish : @escaping ([[String: Any]]?, NSError?) -> Void) {
         loadList("/", finish: finish)
     }
-    
-    func loadList(_ path : String, finish : @escaping ([[String:Any]]?, NSError?)->()) {
+
+    func loadList(_ path: String, finish : @escaping ([[String: Any]]?, NSError?) -> Void) {
         if let token = Manager.token {
-            let urlStr = "https://pan.baidu.com/api/list?dir=\(path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? "")&clienttype=0&web=1&page=1&channel=chunlei&web=1&app_id=250528&stoken=\(token)"
+            var urlStr = "https://pan.baidu.com/api/list?"
+            urlStr += "dir=\(path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed) ?? "")"
+            urlStr += "&clienttype=0&web=1&page=1&channel=chunlei&web=1&app_id=250528&stoken=\(token)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
                 let request = Alamofire.request(url, headers: nil)
                 request.responseJSON(completionHandler: { (resp) in
                     if let err = resp.error {
                         finish(nil, err as NSError)
                     } else {
-                        if let list = (resp.result.value as? [String:Any])?["list"] as? [[String:Any]] {
+                        if let list = (resp.result.value as? [String: Any])?["list"] as? [[String: Any]] {
                             finish(list, nil)
                         } else {
-                            finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
+                            finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "数据格式解析错误"]))
                         }
                     }
                 })
-            } else {                
-                finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"url 格式错误"]))
+            } else {
+                finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "url 格式错误"]))
             }
         } else {
-            finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"token"]))
+            finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "token"]))
         }
     }
-    
-    func getDLink(_ path : [String], finish : @escaping ([String]?, NSError?)->()) {
+
+    func getDLink(_ path: [String], finish : @escaping ([String]?, NSError?) -> Void) {
         if let token = Manager.token {
             let pathes = path.map({ (str) -> String in
                 return "\"\(str)\""
             })
-            let target = "[\(pathes.joined(separator: ","))]".addingPercentEncoding(withAllowedCharacters: CharacterSet()) ?? ""
-            let query = "target=\(target)&stoken=\(token)&dlink=1&channel=chunlei&web=1&app_id=250528&clienttype=0&logid=\(Manager.logId ?? "")"
+            var target = "[\(pathes.joined(separator: ","))]"
+            target = target.addingPercentEncoding(withAllowedCharacters: CharacterSet()) ?? ""
+            var query = "target=\(target)&stoken=\(token)&"
+            query += "dlink=1&channel=chunlei&web=1&app_id=250528&clienttype=0&logid=\(Manager.logId ?? "")"
             let urlStr = "https://pan.baidu.com/api/filemetas?\(query)"
             if urlStr.count > 0, let url = URL.init(string: urlStr) {
                 let request = Alamofire.request(url, headers: nil)
@@ -85,7 +89,7 @@ class Manager {
                     if let err = resp.error {
                         finish(nil, err as NSError)
                     } else {
-                        if let list = (resp.result.value as? [String:Any])?["info"] as? [[String:Any]] {
+                        if let list = (resp.result.value as? [String: Any])?["info"] as? [[String: Any]] {
                             let items = list.flatMap({ (item) -> String? in
                                 return item["dlink"] as? String
                             })
@@ -93,15 +97,15 @@ class Manager {
                             print(items)
                             finish(items, nil)
                         } else {
-                            finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"数据格式解析错误"]))
+                            finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "数据格式解析错误"]))
                         }
                     }
                 })
             } else {
-                finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"url 格式错误"]))
+                finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "url 格式错误"]))
             }
         } else {
-            finish(nil, NSError.init(domain: "Server", code: -1, userInfo:["msg":"token"]))
+            finish(nil, NSError.init(domain: "Server", code: -1, userInfo: ["msg": "token"]))
         }
 
     }

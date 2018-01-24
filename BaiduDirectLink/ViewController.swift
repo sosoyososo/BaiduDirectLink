@@ -8,6 +8,7 @@
 
 import UIKit
 import KCBlockUIKit
+import RxGesture
 
 class ViewController: UIViewController, UIWebViewDelegate {
     
@@ -23,6 +24,13 @@ class ViewController: UIViewController, UIWebViewDelegate {
         setNavRightItem("首页", image: nil, titleColor: nil, font: nil) { [unowned self] in
             self.showHome()
         }
+        _=view.rx.swipeGesture(UISwipeGestureRecognizerDirection.right).filter { (gesture) -> Bool in
+            return gesture.state == UIGestureRecognizerState.ended
+            }.subscribe(onNext: { [unowned self] (_) in
+                if self.webView?.canGoBack == true {
+                    self.webView?.goBack()
+                }
+            })
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
